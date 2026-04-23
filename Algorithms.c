@@ -2,6 +2,9 @@
 #include <stdlib.h>
 #include <time.h>
 
+#define SIZE 1000
+#define REPEAT 10000   // repeat to get measurable time
+
 int linearSearch(int arr[], int size, int key);
 int binarySearch(int arr[], int left, int right, int key);
 // HASH prototypes
@@ -10,6 +13,77 @@ void insertHash(int key);
 int searchHash(int key);
 
 int main(){
+    int arr[SIZE];
+    int choice, key;
+    clock_t start, end;
+    double time_taken;
+
+    // Fill array with sorted data
+    for(int i = 0; i < SIZE; i++) {
+        arr[i] = i * 2;
+    }
+
+    // Prepare hash table
+    initHash();
+    for(int i = 0; i < SIZE; i++) {
+        insertHash(arr[i]);
+    }
+
+    printf("Enter element to search: ");
+    scanf("%d", &key);
+
+    printf("\nChoose Search Method:\n");
+    printf("1. Linear Search\n");
+    printf("2. Binary Search\n");
+    printf("3. Hashing\n");
+    printf("Enter choice: ");
+    scanf("%d", &choice);
+
+    int result = -1;
+
+    switch(choice) {
+
+        case 1:
+            start = clock();
+            for(int i = 0; i < REPEAT; i++)
+                result = linearSearch(arr, SIZE, key);
+            end = clock();
+
+            printf("\n[Linear Search]\n");
+            break;
+
+        case 2:
+            start = clock();
+            for(int i = 0; i < REPEAT; i++)
+                result = binarySearch(arr, 0, SIZE - 1, key);
+            end = clock();
+
+            printf("\n[Binary Search]\n");
+            break;
+
+        case 3:
+            start = clock();
+            for(int i = 0; i < REPEAT; i++)
+                result = searchHash(key);
+            end = clock();
+
+            printf("\n[Hashing]\n");
+            break;
+
+
+        default:
+            printf("Invalid choice\n");
+            return 0;
+    }
+
+    time_taken = ((double)(end - start)) / CLOCKS_PER_SEC;
+
+    if(result != -1)
+        printf("Element found at index %d\n", result);
+    else
+        printf("Element not found\n");
+
+    printf("Time taken: %f seconds\n", time_taken);
 
     return 0;
 }
