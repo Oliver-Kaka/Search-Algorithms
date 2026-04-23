@@ -4,7 +4,9 @@
 
 int linearSearch(int arr[], int size, int key);
 int binarySearch(int arr[], int left, int right, int key);
+// HASH prototypes
 void initHash();
+void insertHash(int key);
 int searchHash(int key);
 
 int main(){
@@ -39,7 +41,7 @@ int binarySearch(int arr[], int left, int right, int key) {
 }
 
 //HASHING
-#define TABLE_SIZE 1000
+#define TABLE_SIZE 2003
 int hashTable[TABLE_SIZE];
 
 void initHash() {
