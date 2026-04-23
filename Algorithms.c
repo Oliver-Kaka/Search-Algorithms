@@ -4,6 +4,8 @@
 
 int linearSearch(int arr[], int size, int key);
 int binarySearch(int arr[], int left, int right, int key);
+void initHash();
+int searchHash(int key);
 
 int main(){
 
@@ -34,4 +36,40 @@ int binarySearch(int arr[], int left, int right, int key) {
         }
     }
     return -1; // element not found
+}
+
+//HASHING
+#define TABLE_SIZE 1000
+int hashTable[TABLE_SIZE];
+
+void initHash() {
+    for(int i = 0; i < TABLE_SIZE; i++)
+        hashTable[i] = -1;
+}
+
+int hashFunction(int key) {
+    return key % TABLE_SIZE;
+}
+
+void insertHash(int key) {
+    int index = hashFunction(key);
+    while(hashTable[index] != -1) {
+        index = (index + 1) % TABLE_SIZE;
+    }
+    hashTable[index] = key;
+}
+
+int searchHash(int key) {
+    int index = hashFunction(key);
+    int start = index;
+
+    while(hashTable[index] != -1) {
+        if(hashTable[index] == key)
+            return index;
+        index = (index + 1) % TABLE_SIZE;
+
+        if(index == start)
+            break;
+    }
+    return -1;
 }
