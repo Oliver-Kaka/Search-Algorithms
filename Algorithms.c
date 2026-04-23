@@ -29,13 +29,14 @@ int main(){
         insertHash(arr[i]);
     }
 
-    printf("Enter element to search: ");
+    printf("Enter element to search(last element is 1998 to check max time): ");
     scanf("%d", &key);
 
     printf("\nChoose Search Method:\n");
     printf("1. Linear Search\n");
     printf("2. Binary Search\n");
     printf("3. Hashing\n");
+    printf("4. Compare All\n");
     printf("Enter choice: ");
     scanf("%d", &choice);
 
@@ -70,6 +71,39 @@ int main(){
             printf("\n[Hashing]\n");
             break;
 
+        case 4: {
+            double t1, t2, t3;
+            int r1, r2, r3;
+
+            // Linear
+            start = clock();
+            for(int i = 0; i < REPEAT; i++)
+            r1 = linearSearch(arr, SIZE, key);
+            end = clock();
+            t1 = ((double)(end - start)) / CLOCKS_PER_SEC;
+
+            // Binary
+            start = clock();
+            for(int i = 0; i < REPEAT; i++)
+                r2 = binarySearch(arr, 0, SIZE - 1, key);
+            end = clock();
+            t2 = ((double)(end - start)) / CLOCKS_PER_SEC;
+
+            // Hashing
+            start = clock();
+            for(int i = 0; i < REPEAT; i++)
+                r3 = searchHash(key);
+            end = clock();
+            t3 = ((double)(end - start)) / CLOCKS_PER_SEC;
+
+            printf("\n--- Comparison ---\n");
+
+            printf("Linear Search  : %f seconds | %s\n", t1, (r1 != -1) ? "Found" : "Not Found");
+            printf("Binary Search  : %f seconds | %s\n", t2, (r2 != -1) ? "Found" : "Not Found");
+            printf("Hashing        : %f seconds | %s\n", t3, (r3 != -1) ? "Found" : "Not Found");
+
+            return 0;
+        }
 
         default:
             printf("Invalid choice\n");
